@@ -18,7 +18,7 @@ public class Menu {
 			Operation option = this.askOption();
 			if (option == Operation.CLOSE) {
 				execute = false;
-				System.out.println("Até Logo !!!");
+				System.out.println("Ate Logo !!!");
 			} else {
 				Integer value = null;
 				if (option != Operation.REFERRALS && option != Operation.CLEAN) {
@@ -47,12 +47,12 @@ public class Menu {
 		Operation value = null;
 
 		while (ask) {
-			System.out.println("Digite a opção desejada: ");
+			System.out.println("Digite a opcao desejada: ");
 			value = Operation.fromString(Input.getInstance().nextLine());
 			if (value != null) {
 				ask = false;
 			} else {
-				System.out.println("Valor Inválido!");
+				System.out.println("Valor Invalido!");
 			}
 		}
 		return value;
@@ -80,7 +80,7 @@ public class Menu {
 		try {
 			return Integer.parseInt(str);
 		} catch (Exception e) {
-			System.out.println("Valor Inválido!");
+			System.out.println("Valor Invalido!");
 			return null;
 		}
 	}
@@ -140,9 +140,9 @@ public class Menu {
 		boolean exists = this.tree.exists(key);
 		System.out.println("||============================|| BUSCA ||============================||");
 		if (exists) {
-			Printer.printMenuMessage("Número " + key + " foi encontrado com sucesso!");
+			Printer.printMenuMessage("Numero " + key + " foi encontrado com sucesso!");
 		} else {
-			Printer.printMenuMessage("Número " + key + " não foi encontrado.");
+			Printer.printMenuMessage("Numero " + key + " nao foi encontrado.");
 		}
 		this.printList(this.tree.getSearch(), "Busca");
 	}
