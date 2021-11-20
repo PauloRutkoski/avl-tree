@@ -1,7 +1,8 @@
 package model;
 
 public class Node implements Cloneable{
-	private Integer key;
+	private Object key;
+	private Integer index;
 	private Node left;
 	private Node right;
 	private int height;
@@ -12,14 +13,17 @@ public class Node implements Cloneable{
 		height = 1;
 	}
 
-	public Integer getKey() {
+	public Object getKey() {
 		return key;
 	}
 
-	public void setKey(Integer key) {
+	public void setKey(Object key) {
 		this.key = key;
 	}
-	
+	public void setIndex(Integer index) {
+		this.index = index;
+	}
+
 	public Node getLeft() {
 		return left;
 	}

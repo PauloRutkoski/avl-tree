@@ -1,7 +1,7 @@
 package enums;
 
 public enum Operation {
-	INSERT(0, "i"), SEARCH(1, "b"), REMOVE(2, "r"), REFERRALS(3, "e"), CLOSE(4, "s") ,CLEAN(5, "l");
+	FIND_CPF(0, "c"), FIND_NAME(1, "n"), FIND_DATE(2, "d"), CLOSE(3, "s") ;
 
 	public static Operation fromString(String value) {
 		if (value != null && !value.trim().isEmpty()) {

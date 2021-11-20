@@ -52,55 +52,6 @@ public class AvlTree {
 		}
 		return verifyBalance(node);
 	}
-	
-	public void delete(int key) {
-		this.root = delete(root, key);
-	}
-
-	private Node delete(Node node, int key) {
-		if (node == null) {
-			return null;
-		}
-		if(node.getKey() == key) {
-			node = executeDelete(node);
-		}else {
-			if(key > node.getKey()) {
-				node.setRight(delete(node.getRight(), key));
-			}else {
-				node.setLeft(delete(node.getLeft(), key));
-			}
-		}
-		return verifyBalance(node);
-	}
-	
-	private Node executeDelete(Node node) {
-		if(node.getHeight() == 1) {
-			node = null;
-		}else if(node.getLeft() == null || node.getRight() == null) {
-			node = node.getLeft() == null ? node.getRight() : node.getLeft();
-		}else{
-			Node right = node.getRight().clone();
-			Node left = node.getLeft().clone();
-			node.setKey(left.getKey());
-			node.setRight(left.getRight());
-			node.setLeft(left.getLeft());
-			Node mostRight = findMostRight(node);
-			mostRight.setRight(right);
-		}
-		return node;
-	}
-	
-	private Node findMostRight(Node node) {
-		if(node.getRight() == null) {
-			return node;
-		}
-		return findMostRight(node.getRight());
-	}
-	
- 
-	public void updateHeight() {
-		updateHeight(root);
-	}
 
 	private void updateHeight(Node node) {
 		if (node == null) {
