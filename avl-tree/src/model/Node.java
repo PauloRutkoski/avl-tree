@@ -1,5 +1,4 @@
 package model;
-
 public class Node implements Cloneable {
     private Object key;
     private Integer index;
@@ -62,6 +61,4 @@ public class Node implements Cloneable {
         }
         return null;
     }
-
-
 }
