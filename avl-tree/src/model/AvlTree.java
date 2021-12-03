@@ -1,15 +1,16 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AvlTree {
 
 	private Node root;
-	private List<Integer> preOrder;
-	private List<Integer> postOrder;
-	private List<Integer> inOrder;
-	private List<Integer> search;
+	private List<Object> preOrder;
+	private List<Object> postOrder;
+	private List<Object> inOrder;
+	private List<Object> search;
 
 	public Node getRoot() {
 		return root;
@@ -19,32 +20,33 @@ public class AvlTree {
 		this.root = root;
 	}
 
-	public List<Integer> getPreOrder() {
+	public List<Object> getPreOrder() {
 		return preOrder;
 	}
 
-	public List<Integer> getPostOrder() {
+	public List<Object> getPostOrder() {
 		return postOrder;
 	}
 
-	public List<Integer> getInOrder() {
+	public List<Object> getInOrder() {
 		return inOrder;
 	}
 
-	public List<Integer> getSearch() {
+	public List<Object> getSearch() {
 		return search;
 	}
 
-	public void insert(int key) {
+	public void insert(Object key) {
 		this.root = insert(root, key);
 	}
 	
-	private Node insert(Node node, int key) {
+	private Node insert(Node node, Object key) {
 		if (node == null) {
 			return new Node(key);
 		}
-		if (node.getKey() != key) {
-			if (node.getKey() < key) {
+		if (!node.getKey().equals(key)) {
+			// if (node.getKey() < key) {
+			if (verifyIfIsLess(node, key)) {
 				node.setRight(insert(node.getRight(), key));
 			} else {
 				node.setLeft(insert(node.getLeft(), key));
@@ -52,6 +54,19 @@ public class AvlTree {
 		}
 		return verifyBalance(node);
 	}
+
+	// method which returns if the node value is less or comes before the key and returns
+	private boolean verifyIfIsLess(Node node, Object key) {
+		if(isString(node.getKey()) && isString(key))
+			return ((String) node.getKey()).compareToIgnoreCase((String) key) < 0;
+		else if(isDate(node.getKey()) && isDate(key))
+			return ((LocalDate) node.getKey()).isBefore((LocalDate) key);
+		return false;
+	}
+
+	// an enjambration kkkk of the 'typeof' method for strings
+	private boolean isString(Object obj) { return obj.getClass().getTypeName().contains("String"); }
+	private boolean isDate(Object obj) { return obj.getClass().getTypeName().contains("LocalDate"); }
 
 	private void updateHeight(Node node) {
 		if (node == null) {
@@ -183,14 +198,16 @@ public class AvlTree {
 		if (node == null) {
 			return null;
 		}
+		
 		this.search.add(node.getKey());
-		if (node.getKey() == key) {
+		boolean isLess = verifyIfIsLess(node, key);
+		if (node.getKey().equals(key)) {
 			return node;
-		} else if (node.getKey() > key) {
-			return find(node.getLeft(), key);
-		} else if (node.getKey() < key) {
+		} else if (isLess) {
 			return find(node.getRight(), key);
+		} else {
+			return find(node.getLeft(), key);
 		}
-		return null;
+		// return null;
 	}
 }
