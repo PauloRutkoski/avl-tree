@@ -1,17 +1,33 @@
 package main;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import enums.Operation;
 import model.AvlTree;
+import model.Person;
 import utils.Input;
 import utils.Printer;
 
-public class Menu {
-    AvlTree tree;
+import javax.swing.text.DateFormatter;
 
-    public void executeMenu() {
-        tree = new AvlTree();
+public class Menu {
+    //AvlTree tree;
+
+    AvlTree<String> cpfs;
+    AvlTree<String> names;
+    AvlTree<ChronoLocalDate> dates;
+    List<Person> people;
+
+    public void executeMenu(List<Person> people) {
+        this.people = people;
+        initTrees();
+
         boolean execute = true;
         while (execute) {
             this.showMenu();
@@ -19,13 +35,32 @@ public class Menu {
             if (option == Operation.CLOSE) {
                 execute = false;
                 System.out.println("Ate Logo !!!");
+            } else if (option == Operation.FIND_DATE) {
+                String value1 = this.askValue(option);
+                String value2 = this.askValue(option);
+                if (value1 != null && value2 != null) {
+                    executeOperation(option, value1, value2);
+                }
             } else {
-                Integer value = null;
+                String value = null;
                 value = this.askValue(option);
                 if (value != null) {
-                    executeOperation(option, value);
+                    executeOperation(option, value, null);
                 }
             }
+        }
+    }
+
+    private void initTrees() {
+        cpfs = new AvlTree<>();
+        names = new AvlTree<>();
+        dates = new AvlTree<>();
+        int i = 0;
+        for (Person person : people) {
+            cpfs.insert(person.getCpf(), i);
+            names.insert(person.getName(), i);
+            dates.insert(person.getBirthDate(), i);
+            i++;
         }
     }
 
@@ -54,32 +89,17 @@ public class Menu {
         return value;
     }
 
-    private Integer askValue(Operation option) {
+    private String askValue(Operation option) {
         boolean ask = true;
         String value = null;
-        Integer intValue = null;
         while (ask) {
             System.out.println(askValueMessage(option));
             value = Input.getInstance().nextLine();
-            if (isBack(value)) {
-                ask = false;
-            }
-            //TODO
-            intValue = convertNumber(value);
-            if (intValue != null) {
+            if (isBack(value) || value != null) {
                 ask = false;
             }
         }
-        return intValue;
-    }
-
-    private Integer convertNumber(String str) {
-        try {
-            return Integer.parseInt(str);
-        } catch (Exception e) {
-            System.out.println("Valor Invalido!");
-            return null;
-        }
+        return value;
     }
 
     private boolean isBlank(String value) {
@@ -103,51 +123,57 @@ public class Menu {
             case FIND_NAME:
                 return "Qual nome deseja buscar? (V - Voltar)";
             case FIND_DATE:
-                return "Qual o período de busca? (V - Voltar)";
+                return "Qual o período de busca (dd-MM-yyyy)? (V - Voltar)";
             default:
                 return "";
         }
     }
 
-    private void executeOperation(Operation op, Integer key) {
+    private void executeOperation(Operation op, String key1, String key2) {
         switch (op) {
             case FIND_CPF:
-                this.executeSearch(key);
+                cpfs.findUnique(key1);
+                showResult(cpfs.getSearch());
                 break;
             case FIND_NAME:
-                this.executeSearch(key);
+                names.findLike(key1);
+                showResult(names.getSearch());
                 break;
             case FIND_DATE:
-                this.executeSearch(key);
-               break;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                dates.findByPeriod(LocalDate.parse(key1, formatter), LocalDate.parse(key2, formatter));
+                showResult(dates.getSearch());
+                break;
             default:
                 break;
         }
     }
 
-    private void executeSearch(int key) {
-        boolean exists = this.tree.exists(key);
-        System.out.println("||============================|| BUSCA ||============================||");
-        if (exists) {
-            Printer.printMenuMessage("Numero " + key + " foi encontrado com sucesso!");
-        } else {
-            Printer.printMenuMessage("Numero " + key + " nao foi encontrado.");
+    private void showResult(List<Integer> positions) {
+        List<Person> search = new ArrayList<>();
+        for (int index : positions) {
+            search.add(people.get(index));
         }
-        this.printList(this.tree.getSearch(), "Busca");
+        printList(search);
     }
 
-
-    private void printList(List<Integer> list, String title) {
+    private void printList(List<Person> list) {
         StringBuilder builder = new StringBuilder();
-        builder.append(title).append(": ");
-        int i = 0;
-        for (Integer it : list) {
-            if (i != 0) {
-                builder.append(" - ");
-            }
-            builder.append(it);
-            i++;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        for (Person it : list) {
+            builder.append("|| CPF: ").append(it.getCpf()).append(" | ");
+            builder.append("RG: ").append(it.getRg()).append(" | ");
+            builder.append("Nome: ").append(it.getName()).append(" | ");
+            builder.append("Data de Nascimento: ").append(it.getBirthDate().format(formatter)).append(" | ");
+            builder.append("Cidade: ").append(it.getCity()).append(";");
+            builder.append("\n");
         }
-        Printer.printMenuMessage(builder.toString());
+        System.out.println("||=========================|| Resultados ||==========================||");
+        if(list.isEmpty()){
+            System.out.println("|| Nenhum dado foi encontrado!");
+        }else {
+            System.out.print(builder.toString());
+        }
+        System.out.println("||===================================================================||");
     }
 }

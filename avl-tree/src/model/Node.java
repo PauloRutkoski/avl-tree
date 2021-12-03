@@ -1,23 +1,23 @@
 package model;
-public class Node implements Cloneable {
-    private Object key;
+public class Node<T extends Comparable<T>> implements Cloneable {
+    private T key;
     private Integer index;
-    private Node left;
-    private Node right;
+    private Node<T> left;
+    private Node<T> right;
     private int height;
 
 
-    public Node(Integer key, Integer index) {
+    public Node(T key, Integer index) {
         this.key = key;
         this.index = index;
         height = 1;
     }
 
-    public Object getKey() {
+    public T getKey() {
         return key;
     }
 
-    public void setKey(Object key) {
+    public void setKey(T key) {
         this.key = key;
     }
 
@@ -29,19 +29,19 @@ public class Node implements Cloneable {
         this.index = index;
     }
 
-    public Node getLeft() {
+    public Node<T> getLeft() {
         return left;
     }
 
-    public void setLeft(Node left) {
+    public void setLeft(Node<T> left) {
         this.left = left;
     }
 
-    public Node getRight() {
+    public Node<T> getRight() {
         return right;
     }
 
-    public void setRight(Node right) {
+    public void setRight(Node<T> right) {
         this.right = right;
     }
 
@@ -53,9 +53,9 @@ public class Node implements Cloneable {
         this.height = height;
     }
 
-    public Node clone() {
+    public Node<T> clone() {
         try {
-            return (Node) super.clone();
+            return (Node<T>) super.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
