@@ -8,7 +8,7 @@ public class Node implements Cloneable{
 	private int height;
 
 
-	public Node(Integer key) {
+	public Node(Object key) {
 		this.key = key;
 		height = 1;
 	}
@@ -20,6 +20,7 @@ public class Node implements Cloneable{
 	public void setKey(Object key) {
 		this.key = key;
 	}
+
 	public void setIndex(Integer index) {
 		this.index = index;
 	}
