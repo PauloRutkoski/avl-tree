@@ -1,61 +1,67 @@
 package model;
 
-public class Node implements Cloneable{
-	private Object key;
-	private Integer index;
-	private Node left;
-	private Node right;
-	private int height;
+public class Node implements Cloneable {
+    private Object key;
+    private Integer index;
+    private Node left;
+    private Node right;
+    private int height;
 
 
-	public Node(Integer key) {
-		this.key = key;
-		height = 1;
-	}
+    public Node(Integer key, Integer index) {
+        this.key = key;
+        this.index = index;
+        height = 1;
+    }
 
-	public Object getKey() {
-		return key;
-	}
+    public Object getKey() {
+        return key;
+    }
 
-	public void setKey(Object key) {
-		this.key = key;
-	}
-	public void setIndex(Integer index) {
-		this.index = index;
-	}
+    public void setKey(Object key) {
+        this.key = key;
+    }
 
-	public Node getLeft() {
-		return left;
-	}
+    public Integer getIndex() {
+        return index;
+    }
 
-	public void setLeft(Node left) {
-		this.left = left;
-	}
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
 
-	public Node getRight() {
-		return right;
-	}
+    public Node getLeft() {
+        return left;
+    }
 
-	public void setRight(Node right) {
-		this.right = right;
-	}
+    public void setLeft(Node left) {
+        this.left = left;
+    }
 
-	public int getHeight() {
-		return height;
-	}
+    public Node getRight() {
+        return right;
+    }
 
-	public void setHeight(int height) {
-		this.height = height;
-	}
+    public void setRight(Node right) {
+        this.right = right;
+    }
 
-	public Node clone() {
-		try {
-			return (Node) super.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+    public int getHeight() {
+        return height;
+    }
 
-	
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public Node clone() {
+        try {
+            return (Node) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }
