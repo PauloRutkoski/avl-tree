@@ -104,6 +104,7 @@ public class AvlTree<T extends Comparable<T>> {
 
         origin.setLeft(null);
         root.setKey(left.getKey());
+        root.setIndex(left.getIndex());
         root.setLeft(left.getLeft());
 
         if (rightChild != null) {
@@ -119,6 +120,7 @@ public class AvlTree<T extends Comparable<T>> {
 
         origin.setRight(null);
         root.setKey(right.getKey());
+        root.setIndex(right.getIndex());
         root.setRight(right.getRight());
 
         if (leftChild != null) {
@@ -143,7 +145,7 @@ public class AvlTree<T extends Comparable<T>> {
         int compare = this.compare(node.getKey(), key);
         if (compare == 0) {
             return node;
-        } else if (compare == 1) {
+        } else if (compare > 0) {
             return searchUnique(node.getRight(), key);
         } else {
             return searchUnique(node.getLeft(), key);
@@ -186,6 +188,13 @@ public class AvlTree<T extends Comparable<T>> {
             execRouteInOrderStartsWith(node.getLeft(), key);
             this.search.add(node.getIndex());
             execRouteInOrderStartsWith(node.getRight(), key);
+        }else{
+            if(node.getLeft() != null){
+                execRouteInOrderStartsWith(node.getLeft(), key);
+            }
+            if(node.getRight() != null){
+                execRouteInOrderStartsWith(node.getRight(), key);
+            }
         }
     }
 
@@ -225,6 +234,13 @@ public class AvlTree<T extends Comparable<T>> {
             execRouteInOrderPeriod(start, end, node.getLeft());
             this.search.add(node.getIndex());
             execRouteInOrderPeriod(start, end, node.getRight());
+        }else{
+            if(node.getLeft() != null){
+                execRouteInOrderPeriod(start, end,  node.getLeft());
+            }
+            if(node.getRight() != null){
+                execRouteInOrderPeriod(start, end,  node.getRight());
+            }
         }
     }
 

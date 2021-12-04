@@ -95,7 +95,10 @@ public class Menu {
         while (ask) {
             System.out.println(askValueMessage(option));
             value = Input.getInstance().nextLine();
-            if (isBack(value) || value != null) {
+            if (value != null) {
+                if(isBack(value)){
+                    value = null;
+                }
                 ask = false;
             }
         }
