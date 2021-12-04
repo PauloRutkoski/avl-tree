@@ -17,8 +17,6 @@ import utils.Printer;
 import javax.swing.text.DateFormatter;
 
 public class Menu {
-    //AvlTree tree;
-
     AvlTree<String> cpfs;
     AvlTree<String> names;
     AvlTree<ChronoLocalDate> dates;
